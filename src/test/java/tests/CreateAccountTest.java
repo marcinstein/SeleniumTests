@@ -1,5 +1,6 @@
 package tests;
 
+import com.github.javafaker.Faker;
 import enums.*;
 import model.Address;
 import model.PersonalInformation;
@@ -16,6 +17,8 @@ public class CreateAccountTest extends BaseTest {
     private CreateAccountPage createAccountPage;
     private YourPersonalInformationPage yourPersonalInformationPage;
     private YourAddressPage yourAddressPage;
+
+    Faker faker = new Faker();
 
     @BeforeEach
     public void setupTest() {
@@ -39,14 +42,14 @@ public class CreateAccountTest extends BaseTest {
     @Test
     public void shouldNotCreateNewAccountAddressMissing() {
         topMenuPage.clickSignInLink();
-        createAccountPage.enterEmail("msms32@msms.ms");
+        createAccountPage.enterEmail(faker.internet().emailAddress());
         createAccountPage.clickCreateAccountButton();
         PersonalInformation personalInformation = new PersonalInformation();
         personalInformation.setDayOfBirth(DayOfBirth.FIFTEEN);
-        personalInformation.setFirstName("Marcin");
-        personalInformation.setLastName("Testowy");
-        personalInformation.setEmail("msms@ms.ms");
-        personalInformation.setPassword("pwdpwd");
+        personalInformation.setFirstName(faker.name().firstName());
+        personalInformation.setLastName(faker.name().lastName());
+        personalInformation.setEmail(faker.internet().emailAddress());
+        personalInformation.setPassword(faker.internet().password());
         personalInformation.setDayOfBirth(DayOfBirth.FIFTEEN);
         personalInformation.setMonthOfBirth(MonthOfBirth.AUGUST);
         personalInformation.setYearOfBirth(YearOfBirth.YEAR1981);
@@ -60,14 +63,14 @@ public class CreateAccountTest extends BaseTest {
     @Test
     public void shouldNotCreateNewAccountPersonalEmailMissing() {
         topMenuPage.clickSignInLink();
-        createAccountPage.enterEmail("msms56@msms.ms");
+        createAccountPage.enterEmail(faker.internet().emailAddress());
         createAccountPage.clickCreateAccountButton();
         yourPersonalInformationPage.clickTitleMrs();
         yourPersonalInformationPage.clearEmail();
-        yourPersonalInformationPage.enterFirstName("Marcin");
-        yourPersonalInformationPage.enterLastName("Testus");
+        yourPersonalInformationPage.enterFirstName(faker.name().firstName());
+        yourPersonalInformationPage.enterLastName(faker.name().lastName());
         yourPersonalInformationPage.clearEmail();
-        yourPersonalInformationPage.enterPassword("abcdabcd");
+        yourPersonalInformationPage.enterPassword(faker.internet().password());
         yourPersonalInformationPage.clickSpecialOfferCheckbox();
         yourPersonalInformationPage.clickNewsletterCheckbox();
         yourAddressPage.clickRegisterButton();
@@ -77,14 +80,14 @@ public class CreateAccountTest extends BaseTest {
     @Test
     public void shouldCreateAccount() {
         topMenuPage.clickSignInLink();
-        createAccountPage.enterEmail("msms77@msms.ms");
+        createAccountPage.enterEmail(faker.internet().emailAddress());
         createAccountPage.clickCreateAccountButton();
         PersonalInformation personalInformation = new PersonalInformation();
         personalInformation.setDayOfBirth(DayOfBirth.FIFTEEN);
-        personalInformation.setFirstName("Marcin");
-        personalInformation.setLastName("Testowy");
-        personalInformation.setEmail("msms77@ms.ms");
-        personalInformation.setPassword("pwdpwd");
+        personalInformation.setFirstName(faker.name().firstName());
+        personalInformation.setLastName(faker.name().lastName());
+        personalInformation.setEmail(faker.internet().emailAddress());
+        personalInformation.setPassword(faker.internet().password());
         personalInformation.setDayOfBirth(DayOfBirth.FIFTEEN);
         personalInformation.setMonthOfBirth(MonthOfBirth.AUGUST);
         personalInformation.setYearOfBirth(YearOfBirth.YEAR1981);
@@ -92,17 +95,17 @@ public class CreateAccountTest extends BaseTest {
         yourPersonalInformationPage.clearEmail();
         yourPersonalInformationPage.setAllPersonalInformation(personalInformation);
         Address address = new Address();
-        address.setCompany("Super Company");
-        address.setAddress("OverTheRainbow 1.2");
-        address.setCity("DarkMoon");
+        address.setCompany(faker.company().name());
+        address.setAddress(faker.address().streetAddress());
+        address.setCity(faker.address().city());
         address.setAddressState(AddressState.TEXAS);
-        address.setPostalCode("98765");
+        address.setPostalCode(faker.number().digits(5));
         address.setAddressCountry(AddressCountry.UNITED_STATES);
-        address.setAdditionalInfo("Something");
-        address.setHomePhone("987654321");
-        address.setMobilePhone("123456789");
-        address.setMyAddress("Behind the Moon");
-        yourAddressPage.setAllAddressData(address, "Marcin", "Testing");
+        address.setAdditionalInfo(faker.lorem().sentence());
+        address.setHomePhone(faker.phoneNumber().cellPhone());
+        address.setMobilePhone(faker.phoneNumber().cellPhone());
+        address.setMyAddress(faker.address().streetName());
+        yourAddressPage.setAllAddressData(address, faker.name().firstName(), faker.name().lastName());
         yourAddressPage.clickRegisterButton();
         assertThat(yourPersonalInformationPage.isAccountCreatedTextDisplayed()).isTrue();
     }

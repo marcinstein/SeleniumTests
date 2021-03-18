@@ -1,12 +1,11 @@
 package pages;
 
 import model.Message;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import utils.ElementDisplayedUtils;
 
 public class ContactUsFormPage extends BasePage {
 
@@ -46,21 +45,11 @@ public class ContactUsFormPage extends BasePage {
     }
 
     public boolean isRedAlertBoxDisplayed() {
-        return isAlertBoxDisplayed(redAlertBox);
+        return ElementDisplayedUtils.isElementDisplayed(redAlertBox, wait);
     }
 
     public boolean isGreenAlertBoxDisplayed() {
-        return isAlertBoxDisplayed(greenAlertBox);
-    }
-
-    private boolean isAlertBoxDisplayed(WebElement box) {
-        wait.until(ExpectedConditions.visibilityOf(box));
-        boolean isDisplayed = false;
-        try {
-            isDisplayed = box.isDisplayed();
-        } catch (NoSuchElementException e) {
-        }
-        return isDisplayed;
+        return ElementDisplayedUtils.isElementDisplayed(greenAlertBox, wait);
     }
 
     public void sendContactUsForm(Message message) {

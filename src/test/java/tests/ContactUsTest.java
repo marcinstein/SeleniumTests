@@ -1,5 +1,6 @@
 package tests;
 
+import com.github.javafaker.Faker;
 import enums.MessageSubject;
 import model.Message;
 import org.junit.jupiter.api.*;
@@ -15,6 +16,8 @@ public class ContactUsTest extends BaseTest {
 
     private TopMenuPage topMenuPage;
     private ContactUsFormPage contactUsFormPage;
+
+    Faker faker = new Faker();
 
     @BeforeEach
     public void setupTest() {
@@ -37,7 +40,7 @@ public class ContactUsTest extends BaseTest {
     @Order(2)
     public void shouldNotAllowToSendContactUsFormWithEmailOnly() {
         topMenuPage.clickOnContactUsLink();
-        contactUsFormPage.enterEmail("mm123@mm.abc");
+        contactUsFormPage.enterEmail(faker.internet().emailAddress());
         contactUsFormPage.clickSendButton();
         assertThat(contactUsFormPage.isRedAlertBoxDisplayed()).isTrue();
     }
@@ -48,9 +51,9 @@ public class ContactUsTest extends BaseTest {
         topMenuPage.clickOnContactUsLink();
         Message message = new Message();
         message.setSubject(MessageSubject.WEBMASTER);
-        message.setEmail("mm234@mm.asd");
-        message.setOrderReference("123");
-        message.setMessage("Text Message Text");
+        message.setEmail(faker.internet().emailAddress());
+        message.setOrderReference(faker.number().digits(3));
+        message.setMessage(faker.lorem().sentence());
         contactUsFormPage.sendContactUsForm(message);
         assertThat(contactUsFormPage.isGreenAlertBoxDisplayed()).isTrue();
     }

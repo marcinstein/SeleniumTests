@@ -1,10 +1,9 @@
 package pages;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.ElementDisplayedUtils;
 
 public class SearchResultPage extends BasePage {
     public SearchResultPage(WebDriver driver) {
@@ -21,17 +20,7 @@ public class SearchResultPage extends BasePage {
     WebElement resultPrice;
 
     public boolean isProductCountTextDisplayed() {
-        return isElementDisplayed(productCountText);
-    }
-
-    private boolean isElementDisplayed(WebElement box) {
-        wait.until(ExpectedConditions.visibilityOf(box));
-        boolean isDisplayed = false;
-        try {
-            isDisplayed = box.isDisplayed();
-        } catch (NoSuchElementException e) {
-        }
-        return isDisplayed;
+        return ElementDisplayedUtils.isElementDisplayed(productCountText, wait);
     }
 
     public String getProductCountText() {

@@ -1,10 +1,10 @@
 package pages;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.ElementDisplayedUtils;
 
 public class CreateAccountPage extends BasePage {
     public CreateAccountPage(WebDriver driver) {
@@ -29,18 +29,8 @@ public class CreateAccountPage extends BasePage {
         createAccountButton.click();
     }
 
-    private boolean isAlertBoxDisplayed(WebElement box) {
-        wait.until(ExpectedConditions.visibilityOf(box));
-        boolean isDisplayed = false;
-        try {
-            isDisplayed = box.isDisplayed();
-        } catch (NoSuchElementException e) {
-        }
-        return isDisplayed;
-    }
-
     public boolean isRedAlertBoxDisplayed() {
-        return isAlertBoxDisplayed(invalidEmailRedAlert);
+        return ElementDisplayedUtils.isElementDisplayed(invalidEmailRedAlert, wait);
     }
 
 }

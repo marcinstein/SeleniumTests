@@ -1,11 +1,11 @@
 package pages;
 
 import model.PersonalInformation;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.ElementDisplayedUtils;
 
 
 public class YourPersonalInformationPage extends BasePage {
@@ -101,21 +101,10 @@ public class YourPersonalInformationPage extends BasePage {
     }
 
     public boolean isRedAlertBoxDisplayed() {
-        return isElementDisplayed(redAlertBox);
+        return ElementDisplayedUtils.isElementDisplayed(redAlertBox, wait);
     }
 
     public boolean isAccountCreatedTextDisplayed() {
-        return isElementDisplayed(accountCreated);
+        return ElementDisplayedUtils.isElementDisplayed(accountCreated, wait);
     }
-
-    private boolean isElementDisplayed(WebElement box) {
-        wait.until(ExpectedConditions.visibilityOf(box));
-        boolean isDisplayed = false;
-        try {
-            isDisplayed = box.isDisplayed();
-        } catch (NoSuchElementException e) {
-        }
-        return isDisplayed;
-    }
-
 }
